@@ -1,0 +1,36 @@
+{
+  "name": "@ikodi/backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node ../node_modules/tsx/dist/cli.mjs watch src/server.ts",
+    "build": "node ../node_modules/typescript/bin/tsc -p tsconfig.json",
+    "start": "node dist/src/server.js",
+    "typecheck": "node ../node_modules/typescript/bin/tsc -p tsconfig.json --noEmit",
+    "prisma:generate": "node ../node_modules/prisma/build/index.js generate",
+    "prisma:migrate": "node ../node_modules/prisma/build/index.js migrate deploy",
+    "prisma:seed": "node ../node_modules/tsx/dist/cli.mjs prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "pino": "^10.1.0",
+    "pino-http": "^11.0.0",
+    "prisma": "^6.19.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "prisma": {
+    "seed": "node ../node_modules/tsx/dist/cli.mjs prisma/seed.ts"
+  }
+}

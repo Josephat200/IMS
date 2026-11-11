@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="IKODI Scholarship and Sponsorship Management System">
+  <title>IKODI | Scholarship & Sponsorship Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+</head>
+<body>
+  <main class="landing-shell">
+    <section class="welcome-panel" aria-label="IKODI introduction">
+      <div class="welcome-content">
+        <a class="brand brand--light" href="/" aria-label="IKODI home">
+          <span class="brand-symbol" aria-hidden="true"><span></span><i></i></span>
+          <span><strong>IKODI</strong><small>I AM WITH YOU</small></span>
+        </a>
+        <div class="hero-copy">
+          <h1>Scholarship &amp; Sponsorship<br>Management System</h1>
+          <p>Manage Scholarships. Support Students.<br>Build a Brighter Future.</p>
+        </div>
+        <div class="feature-strip" aria-label="IKODI capabilities">
+          <div class="feature"><span class="feature-icon">▣</span><strong>Manage<br>Applications</strong></div>
+          <div class="feature"><span class="feature-icon">♢</span><strong>Track<br>Sponsorships</strong></div>
+          <div class="feature"><span class="feature-icon">▥</span><strong>Generate<br>Reports</strong></div>
+          <div class="feature"><span class="feature-icon">✓</span><strong>Ensure<br>Transparency</strong></div>
+          <div class="feature"><span class="feature-icon">♙</span><strong>Empower<br>Students</strong></div>
+        </div>
+        <div class="quote">“Investing in education today,<br>for a better tomorrow.”</div>
+      </div>
+    </section>
+
+    <section class="auth-panel" aria-label="Sign in to IKODI">
+      <div class="auth-card">
+        <div class="people-icon" aria-hidden="true">♟♟♟</div>
+        <h2>Welcome to IKODI</h2>
+        <p class="auth-subtitle">Please sign in to access the system</p>
+        <div class="auth-tabs" role="tablist">
+          <button class="auth-tab is-active" type="button" data-mode="signin" role="tab" aria-selected="true">Sign In</button>
+          <button class="auth-tab" type="button" data-mode="register" role="tab" aria-selected="false">Create Account</button>
+        </div>
+        <form class="auth-form" id="auth-form">
+          <label class="field field--name" hidden><span aria-hidden="true">♙</span><input name="fullName" type="text" placeholder="Full Name" autocomplete="name"></label>
+          <label class="field"><span aria-hidden="true">✉</span><input name="email" type="email" placeholder="Email Address or Username" required autocomplete="email"></label>
+          <label class="field"><span aria-hidden="true">▣</span><input name="password" type="password" placeholder="Password" required minlength="8" autocomplete="current-password"><button class="password-toggle" type="button" aria-label="Show password">◉</button></label>
+          <div class="form-options"><label class="remember"><input type="checkbox"> <span>Remember Me</span></label><a href="#forgot">Forgot Password?</a></div>
+          <button class="submit-button" type="submit"><span aria-hidden="true">↪</span><span id="submit-label">Sign In</span></button>
+          <div class="or-divider"><span>OR</span></div>
+          <div class="new-user"><strong>ⓘ &nbsp; New to IKODI?</strong><span>Create an account to apply for scholarships or<br>manage sponsorships.</span><button type="button" class="create-account">♙ &nbsp; Create Account</button></div>
+          <p class="auth-message" id="auth-message" role="status"></p>
+        </form>
+        <div class="secure-note">⌾ &nbsp; Your data is secure with us</div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>IKODI – Scholarship &amp; Sponsorship Management System</span><span>Version 1.0</span><nav><a href="#help">▣ Help</a><a href="#support">⌕ Contact Support</a><a href="#privacy">▣ Privacy Policy</a></nav></footer>
+  <section class="system-shell" id="system-shell" hidden aria-label="IKODI system dashboard">
+    <header class="system-header"><a class="system-brand" href="#system/dashboard">IKODI <small>SCHOLARSHIP MANAGEMENT</small></a><nav class="system-nav" id="system-nav" aria-label="System navigation"><button class="is-active" type="button" data-route="dashboard">Overview</button><button type="button" data-route="applications">Applications</button><button type="button" data-route="scholarships">Scholarships</button><button type="button" data-route="notifications">Notifications</button><button type="button" data-route="profile">Profile</button><button type="button" data-route="settings">Settings</button></nav><div class="system-user"><span class="user-avatar" id="user-avatar">U</span><span><strong id="user-name">User</strong><small id="user-role">STUDENT</small></span><button class="logout-button" id="logout-button" type="button">Sign out</button></div></header>
+    <main class="system-content"><div class="system-heading"><div><span class="eyebrow">IKODI WORKSPACE</span><h2 id="workspace-title">Welcome back</h2><p id="workspace-copy">Your education opportunity workspace is ready.</p></div><span class="role-badge" id="role-badge">STUDENT</span></div><div class="insight-grid" id="insight-grid"></div><div class="system-grid" id="system-grid"></div><section class="workspace-panel"><div class="panel-heading"><div><h3 id="activity-title">My applications</h3><p id="activity-copy">Track your scholarship applications and next steps.</p></div><button class="panel-action" type="button" id="refresh-activity">Refresh</button></div><div class="activity-list" id="activity-list"><span>Loading your workspace...</span></div></section></main>
+  </section>
+  <script src="app.js" defer></script>
+  <script>
+    const authForm = document.querySelector('#auth-form');
+    const authTabs = document.querySelectorAll('.auth-tab');
+    const nameField = document.querySelector('.field--name');
+    const submitLabel = document.querySelector('#submit-label');
+    const message = document.querySelector('#auth-message');
+    const landingShell = document.querySelector('.landing-shell');
+    const footer = document.querySelector('.site-footer');
+    const systemShell = document.querySelector('#system-shell');
+    const roleActions = { STUDENT: [['▣', 'My applications', 'Track submitted applications and decisions.'], ['⌕', 'Find scholarships', 'Browse current opportunities and deadlines.'], ['◈', 'My profile', 'Keep your student details up to date.']], SPONSOR: [['♢', 'My sponsorships', 'Track the students and awards you support.'], ['▥', 'Impact reports', 'Review the outcomes of your giving.'], ['◈', 'Sponsor profile', 'Manage your organization details.']], INSTITUTION_ADMIN: [['▣', 'Applications', 'Review and manage incoming applications.'], ['▥', 'Scholarships', 'Publish and maintain opportunities.'], ['◈', 'Institution settings', 'Manage your institution workspace.']], REVIEWER: [['▣', 'Review queue', 'Evaluate assigned scholarship applications.'], ['✓', 'Decisions', 'View completed recommendations.'], ['▥', 'Review reports', 'Monitor review activity.']], FINANCE_OFFICER: [['▣', 'Disbursements', 'Process approved student awards.'], ['✓', 'Reconciliation', 'Track payment and reconciliation status.'], ['▥', 'Finance reports', 'Generate funding reports.']], SUPER_ADMIN: [['▣', 'Applications', 'Oversee every application workflow.'], ['♢', 'Users and roles', 'Manage system access and assignments.'], ['▥', 'System reports', 'Monitor platform-wide activity.']] };
+    Object.assign(roleActions, { GUARDIAN: [['▣', 'Student applications', 'Track linked student applications and updates.'], ['▥', 'Documents', 'Review submitted supporting documents.'], ['◈', 'Guardian settings', 'Manage notification preferences.']], COMMITTEE_MEMBER: [['▣', 'Committee queue', 'Review cases awaiting committee decisions.'], ['✓', 'Decisions', 'Track recommendations and outcomes.'], ['◈', 'Committee settings', 'Manage committee preferences.']], SIGNATORY: [['✓', 'Approvals', 'Authorize approved awards and payments.'], ['▥', 'Finance reports', 'Review authorization summaries.'], ['◈', 'Signatory settings', 'Manage approval notifications.']], AUDITOR: [['▣', 'Audit activity', 'Inspect platform activity and controls.'], ['▥', 'Compliance reports', 'Review compliance and exception reports.'], ['◈', 'Audit settings', 'Manage audit digest preferences.']], SUPPORT_STAFF: [['▣', 'Support queue', 'Resolve user and workflow support requests.'], ['▥', 'Service reports', 'Review support performance.'], ['◈', 'Support settings', 'Manage service notifications.']] });
+    const roleInsights = { SUPER_ADMIN: { metrics: [['Active users', '248', '+12%'], ['Applications', '86', '+8%'], ['Published scholarships', '24', '+4%'], ['Funds committed', 'KES 12.4M', '+18%']], bars: [['Jan', 42], ['Feb', 58], ['Mar', 51], ['Apr', 72], ['May', 66], ['Jun', 84]], split: [['Approved', 58, '#0f8b8d'], ['Under review', 27, '#f2b84b'], ['Rejected', 15, '#d95d5d']] }, INSTITUTION_ADMIN: { metrics: [['Open applications', '86', '+8%'], ['Active scholarships', '24', '+4%'], ['Students supported', '164', '+15%'], ['Pending reviews', '19', '-6%']], bars: [['Jan', 34], ['Feb', 46], ['Mar', 43], ['Apr', 61], ['May', 73], ['Jun', 81]], split: [['Approved', 46, '#0f8b8d'], ['Under review', 35, '#f2b84b'], ['Rejected', 19, '#d95d5d']] }, REVIEWER: { metrics: [['Assigned queue', '19', '-6%'], ['Reviewed this month', '42', '+21%'], ['Average score', '78%', '+5%'], ['Returned cases', '7', '-12%']], bars: [['Jan', 22], ['Feb', 31], ['Mar', 28], ['Apr', 44], ['May', 51], ['Jun', 63]], split: [['Approved', 51, '#0f8b8d'], ['Returned', 18, '#f2b84b'], ['Rejected', 31, '#d95d5d']] }, FINANCE_OFFICER: { metrics: [['Pending disbursements', '13', '-18%'], ['Paid this month', 'KES 2.8M', '+24%'], ['Reconciliation rate', '96%', '+3%'], ['Exceptions', '4', '-20%']], bars: [['Jan', 28], ['Feb', 36], ['Mar', 49], ['Apr', 55], ['May', 68], ['Jun', 78]], split: [['Paid', 72, '#0f8b8d'], ['Processing', 18, '#f2b84b'], ['Failed', 10, '#d95d5d']] }, SPONSOR: { metrics: [['Sponsored students', '32', '+10%'], ['Active awards', '28', '+8%'], ['Funds deployed', 'KES 4.2M', '+16%'], ['Completion rate', '89%', '+5%']], bars: [['Jan', 31], ['Feb', 39], ['Mar', 48], ['Apr', 54], ['May', 67], ['Jun', 76]], split: [['On track', 64, '#0f8b8d'], ['Needs attention', 21, '#f2b84b'], ['Completed', 15, '#5681b8']] } };
+    const additionalInsights = { GUARDIAN: ['Student applications', 'Documents received', 'Upcoming deadlines', 'Updates this month'], COMMITTEE_MEMBER: ['Committee queue', 'Decisions recorded', 'Average score', 'Escalations'], SIGNATORY: ['Approvals pending', 'Approved this month', 'Value authorized', 'Exceptions'], AUDITOR: ['Audit events', 'Reviewed records', 'Policy exceptions', 'Open findings'], SUPPORT_STAFF: ['Open requests', 'Resolved this month', 'Average response', 'Escalations'] };
+    Object.entries(additionalInsights).forEach(([role, labels]) => { roleInsights[role] = { metrics: labels.map((label, index) => [label, ['32', '86', '78%', '7'][index], ['+10%', '+8%', '+5%', '-12%'][index]]), bars: [['Jan', 28], ['Feb', 39], ['Mar', 46], ['Apr', 58], ['May', 65], ['Jun', 79]], split: [['Complete', 58, '#0f8b8d'], ['In progress', 27, '#f2b84b'], ['Attention', 15, '#d95d5d']] }; });
+    const settingsByRole = { SUPER_ADMIN: ['User access alerts', 'Audit activity digest', 'System maintenance notices'], INSTITUTION_ADMIN: ['Application review alerts', 'Scholarship deadline reminders', 'Institution announcements'], REVIEWER: ['New queue assignments', 'Review deadline reminders', 'Decision updates'], FINANCE_OFFICER: ['Disbursement approvals', 'Reconciliation exceptions', 'Payment summaries'], SPONSOR: ['Student progress updates', 'Impact report reminders', 'Award notifications'], GUARDIAN: ['Student application updates', 'Document reminders', 'Important announcements'], COMMITTEE_MEMBER: ['Committee meeting reminders', 'Decision review alerts', 'Escalation notices'], SIGNATORY: ['Approval requests', 'Payment authorization alerts', 'Exception notices'], AUDITOR: ['Audit trail digest', 'Policy exception alerts', 'Compliance summaries'], SUPPORT_STAFF: ['New support requests', 'Escalation alerts', 'Service summaries'] };
+    const routeForTitle = (title) => title.toLowerCase().includes('scholar') ? 'scholarships' : title.toLowerCase().includes('setting') ? 'settings' : title.toLowerCase().includes('profile') ? 'profile' : title.toLowerCase().includes('report') || title.toLowerCase().includes('decision') ? 'reports' : title.toLowerCase().includes('review') ? 'reviews' : title.toLowerCase().includes('disbursement') || title.toLowerCase().includes('reconciliation') ? 'finance' : title.toLowerCase().includes('sponsor') ? 'sponsorships' : title.toLowerCase().includes('user') ? 'users' : 'applications';
+    let mode = 'signin';
+    const setMode = (nextMode) => {
+      mode = nextMode;
+      const registering = mode === 'register';
+      nameField.hidden = !registering;
+      nameField.querySelector('input').required = registering;
+      submitLabel.textContent = registering ? 'Create Account' : 'Sign In';
+      authTabs.forEach((tab) => { const active = tab.dataset.mode === mode; tab.classList.toggle('is-active', active); tab.setAttribute('aria-selected', String(active)); });
+    };
+    authTabs.forEach((tab) => tab.addEventListener('click', () => setMode(tab.dataset.mode)));
+    document.querySelector('.create-account').addEventListener('click', () => setMode('register'));
+    document.querySelector('.password-toggle').addEventListener('click', (event) => { const input = event.currentTarget.previousElementSibling; input.type = input.type === 'password' ? 'text' : 'password'; event.currentTarget.textContent = input.type === 'password' ? '◉' : '◎'; });
+    const renderInsights = (role) => {
+      const container = document.querySelector('#insight-grid');
+      const insight = roleInsights[role];
+      if (!insight || role === 'STUDENT') { container.hidden = true; container.innerHTML = ''; return; }
+      container.hidden = false;
+      let offset = 0;
+      const gradient = insight.split.map(([, value, color]) => { const segment = `${color} ${offset}% ${offset + value}%`; offset += value; return segment; }).join(', ');
+      container.innerHTML = `<div class="metric-row">${insight.metrics.map(([label, value, change]) => `<article class="metric-card"><span>${label}</span><strong>${value}</strong><small class="trend-${change.startsWith('-') ? 'down' : 'up'}">${change} vs last month</small></article>`).join('')}</div><div class="visual-row"><article class="visual-panel"><div class="visual-heading"><div><span class="eyebrow">ACTIVITY TREND</span><h3>Monthly performance</h3></div><span class="visual-period">Last 6 months</span></div><div class="bar-chart" aria-label="Monthly performance bar chart">${insight.bars.map(([month, value]) => `<div class="bar-column"><span class="bar-value">${value}</span><div class="bar" style="height:${value}%"></div><small>${month}</small></div>`).join('')}</div></article><article class="visual-panel split-panel"><div class="visual-heading"><div><span class="eyebrow">WORKFLOW MIX</span><h3>Current status</h3></div></div><div class="donut-wrap"><div class="donut-chart" style="background:conic-gradient(${gradient})"></div><div class="donut-legend">${insight.split.map(([label, value, color]) => `<span><i style="background:${color}"></i><b>${value}%</b>${label}</span>`).join('')}</div></div></article></div>`;
+    };
+    const renderSettings = (role) => {
+      const labels = settingsByRole[role] || ['Account activity alerts', 'Important announcements', 'Weekly workspace summary'];
+      const key = `ikodi_settings_${role}`;
+      const stored = JSON.parse(localStorage.getItem(key) || '{}');
+      document.querySelector('#activity-list').innerHTML = `<div class="settings-list">${labels.map((label, index) => `<label class="setting-row"><span><strong>${label}</strong><small>Role-based notification preference</small></span><input type="checkbox" data-setting="${index}" ${stored[index] !== false ? 'checked' : ''}></label>`).join('')}<label class="setting-row setting-row--select"><span><strong>Workspace density</strong><small>Choose how much information appears in your dashboard</small></span><select id="density-setting"><option>Comfortable</option><option>Compact</option></select></label></div>`;
+      document.querySelectorAll('[data-setting]').forEach((input) => input.addEventListener('change', (event) => { const next = JSON.parse(localStorage.getItem(key) || '{}'); next[event.currentTarget.dataset.setting] = event.currentTarget.checked; localStorage.setItem(key, JSON.stringify(next)); }));
+    };
+    const enterSystem = async (user) => {
+      const role = user.role || 'STUDENT';
+      landingShell.hidden = true;
+      footer.hidden = true;
+      systemShell.hidden = false;
+      document.body.classList.add('in-system');
+      document.querySelector('#user-name').textContent = user.fullName;
+      document.querySelector('#user-role').textContent = role.replaceAll('_', ' ');
+      document.querySelector('#user-avatar').textContent = user.fullName.split(' ').map((part) => part[0]).slice(0, 2).join('').toUpperCase();
+      document.querySelector('#workspace-title').textContent = `Welcome, ${user.fullName.split(' ')[0]}`;
+      document.querySelector('#role-badge').textContent = role.replaceAll('_', ' ');
+      renderInsights(role);
+      document.querySelector('#system-grid').innerHTML = (roleActions[role] || roleActions.STUDENT).map(([icon, title, copy]) => `<button class="system-card" type="button" data-route="${routeForTitle(title)}"><span class="system-card-icon">${icon}</span><strong>${title}</strong><span>${copy}</span><b>Open <span aria-hidden="true">↗</span></b></button>`).join('');
+      document.querySelectorAll('.system-card').forEach((card) => card.addEventListener('click', () => navigate(card.dataset.route)));
+      await navigate('dashboard');
+    };
+    const loadActivity = async (role) => {
+      const list = document.querySelector('#activity-list');
+      if (role !== 'STUDENT') { list.innerHTML = '<div class="empty-activity"><strong>Workspace ready</strong><span>Select an area above to begin managing your role-based work.</span></div>'; return; }
+      try {
+        const response = await fetch(`${(window.IKODI_CONFIG || {}).apiBaseUrl || ''}/api/v1/applications`, { headers: { Authorization: `Bearer ${localStorage.getItem('ikodi_token')}` } });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || 'Unable to load applications');
+        list.innerHTML = payload.data.length ? payload.data.map((application) => `<div class="activity-row"><span class="activity-dot"></span><span><strong>${application.scholarship.title}</strong><small>${application.status.replaceAll('_', ' ')}</small></span><time>${new Date(application.updatedAt).toLocaleDateString('en-GB')}</time></div>`).join('') : '<div class="empty-activity"><strong>No applications yet</strong><span>Use Find scholarships to discover your first opportunity.</span></div>';
+      } catch (error) { list.innerHTML = `<div class="empty-activity"><strong>Workspace unavailable</strong><span>${error.message}</span></div>`; }
+    };
+    const navigate = async (route) => {
+      const role = document.querySelector('#user-role').textContent.replaceAll(' ', '_');
+      const labels = { dashboard: ['Overview', 'Your IKODI workspace is ready.'], applications: ['Applications', 'Track and manage scholarship applications.'], scholarships: ['Scholarships', 'Explore current opportunities and deadlines.'], notifications: ['Notifications', 'Stay up to date with system activity.'], profile: ['Profile', 'Manage your account details.'], settings: ['Settings', 'Control preferences for your role and workspace.'], reviews: ['Review queue', 'Process applications assigned to your role.'], finance: ['Finance operations', 'Manage awards and disbursements.'], reports: ['Reports', 'Review operational metrics and reports.'], sponsorships: ['Sponsorships', 'Track sponsorship activity and impact.'], users: ['Users and roles', 'Manage system access according to your permissions.'] };
+      const [title, copy] = labels[route] || labels.dashboard;
+      document.querySelector('#workspace-title').textContent = title;
+      document.querySelector('#workspace-copy').textContent = copy;
+      document.querySelectorAll('#system-nav button').forEach((button) => button.classList.toggle('is-active', button.dataset.route === route));
+      history.replaceState(null, '', `#system/${route}`);
+      const list = document.querySelector('#activity-list');
+      if (route === 'dashboard' || route === 'applications') { document.querySelector('#activity-title').textContent = role === 'STUDENT' ? 'My applications' : 'Recent activity'; document.querySelector('#activity-copy').textContent = 'Track your scholarship applications and next steps.'; await loadActivity(role); return; }
+      if (route === 'scholarships') { document.querySelector('#activity-title').textContent = 'Open scholarships'; try { const response = await fetch(`${(window.IKODI_CONFIG || {}).apiBaseUrl || ''}/api/v1/scholarships`); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Unable to load scholarships'); list.innerHTML = payload.data?.length ? payload.data.map((item) => `<div class="activity-row"><span class="activity-dot"></span><span><strong>${item.title}</strong><small>${item.provider} · ${item.currency} ${item.amount}</small></span><time>Closes ${new Date(item.deadline).toLocaleDateString('en-GB')}</time></div>`).join('') : '<div class="empty-activity"><strong>No open scholarships</strong><span>Check again soon for new opportunities.</span></div>'; } catch (error) { list.innerHTML = `<div class="empty-activity"><strong>Scholarships unavailable</strong><span>${error.message}</span></div>`; } return; }
+      if (route === 'notifications') { document.querySelector('#activity-title').textContent = 'Notifications'; try { const response = await fetch(`${(window.IKODI_CONFIG || {}).apiBaseUrl || ''}/api/v1/notifications`, { headers: { Authorization: `Bearer ${localStorage.getItem('ikodi_token')}` } }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Unable to load notifications'); list.innerHTML = payload.data?.length ? payload.data.map((item) => `<div class="activity-row"><span class="activity-dot"></span><span><strong>${item.title}</strong><small>${item.message}</small></span><time>${new Date(item.createdAt).toLocaleDateString('en-GB')}</time></div>`).join('') : '<div class="empty-activity"><strong>No notifications</strong><span>You are all caught up.</span></div>'; } catch (error) { list.innerHTML = `<div class="empty-activity"><strong>Notifications unavailable</strong><span>${error.message}</span></div>`; } return; }
+      if (route === 'settings') { document.querySelector('#activity-title').textContent = `${role.replaceAll('_', ' ')} settings`; document.querySelector('#activity-copy').textContent = 'Control the preferences for this role and workspace.'; renderSettings(role); return; }
+      document.querySelector('#activity-title').textContent = title;
+      list.innerHTML = `<div class="empty-activity"><strong>${title} workspace</strong><span>This protected ${role.replaceAll('_', ' ').toLowerCase()} area is ready for its next operation.</span></div>`;
+    };
+    document.querySelectorAll('#system-nav button').forEach((button) => button.addEventListener('click', () => navigate(button.dataset.route)));
+    window.addEventListener('popstate', () => navigate(location.hash.startsWith('#system/') ? location.hash.slice(8) : 'dashboard'));
+    authForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      message.textContent = mode === 'register' ? 'Creating your account...' : 'Signing you in...';
+      const data = Object.fromEntries(new FormData(authForm));
+      try {
+        const response = await fetch(`${(window.IKODI_CONFIG || {}).apiBaseUrl || ''}/api/v1/auth/${mode === 'register' ? 'register' : 'login'}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        const responseText = await response.text();
+        let payload;
+        try { payload = responseText ? JSON.parse(responseText) : {}; } catch { throw new Error('The IKODI service is unavailable. Open this page through the running application server.'); }
+        if (!response.ok) throw new Error(payload.error || 'Unable to continue');
+        localStorage.setItem('ikodi_token', payload.token);
+        message.textContent = mode === 'register' ? 'Account created successfully.' : 'Signed in successfully.';
+        await enterSystem(payload.data);
+      } catch (error) { message.textContent = error.message; }
+    });
+    document.querySelector('#refresh-activity').addEventListener('click', () => loadActivity(document.querySelector('#user-role').textContent.replaceAll(' ', '_')));
+    document.querySelector('#logout-button').addEventListener('click', async () => { try { await fetch(`${(window.IKODI_CONFIG || {}).apiBaseUrl || ''}/api/v1/auth/logout`, { method: 'POST', headers: { Authorization: `Bearer ${localStorage.getItem('ikodi_token')}` } }); } catch {} finally { localStorage.removeItem('ikodi_token'); systemShell.hidden = true; landingShell.hidden = false; footer.hidden = false; document.body.classList.remove('in-system'); setMode('signin'); } });
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "ikodi",
+  "private": true,
+  "workspaces": [
+    "backend"
+  ],
+  "scripts": {
+    "dev": "npm --workspace backend run dev",
+    "build": "npm --workspace backend run build",
+    "start": "npm --workspace backend run start",
+    "typecheck": "npm --workspace backend run typecheck",
+    "test": "npm run typecheck && node --check frontend/public/app.js",
+    "provision:users": "node --experimental-strip-types scripts/create-system-users.ts",
+    "create-admin": "node --experimental-strip-types scripts/create-admin.ts",
+    "setup": "node scripts/setup.js"
+  },
+  "engines": {
+    "node": ">=20.11.0"
+  }
+}

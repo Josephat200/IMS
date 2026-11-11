@@ -1,0 +1,255 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  STUDENT
+  SPONSOR
+  INSTITUTION_ADMIN
+  REVIEWER
+  FINANCE_OFFICER
+  SUPER_ADMIN
+  GUARDIAN
+  COMMITTEE_MEMBER
+  SIGNATORY
+  AUDITOR
+  SUPPORT_STAFF
+}
+
+enum ScholarshipStatus {
+  DRAFT
+  PUBLISHED
+  CLOSED
+  ARCHIVED
+}
+
+enum ApplicationStatus {
+  DRAFT
+  SUBMITTED
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  WITHDRAWN
+}
+
+enum ReviewDecision {
+  PENDING
+  APPROVED
+  REJECTED
+  RETURNED
+}
+
+enum AwardStatus {
+  PENDING
+  APPROVED
+  DISBURSED
+  CANCELLED
+}
+
+enum DisbursementStatus {
+  PENDING
+  PROCESSING
+  PAID
+  FAILED
+}
+
+enum DocumentType {
+  IDENTITY
+  ADMISSION
+  ACADEMIC_RESULT
+  FINANCIAL
+  OTHER
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+  SMS
+}
+
+enum NotificationStatus {
+  QUEUED
+  SENT
+  READ
+  FAILED
+}
+
+model User {
+  id                      String           @id @default(uuid())
+  email                   String           @unique
+  fullName                String
+  passwordHash            String?
+  role                    UserRole
+  isActive                Boolean          @default(true)
+  createdAt               DateTime         @default(now())
+  updatedAt               DateTime         @updatedAt
+  applications            Application[]
+  auditLogs               AuditLog[]
+  sessions                Session[]
+  reviews                 Review[]
+  documents               Document[]
+  notifications           Notification[]
+  sentMessages            Message[]        @relation("MessageSender")
+  receivedMessages        Message[]        @relation("MessageRecipient")
+  processedDisbursements  Disbursement[]
+
+  @@index([role, isActive])
+}
+
+model Scholarship {
+  id            String             @id @default(uuid())
+  title         String
+  description   String
+  provider      String
+  amount        Decimal            @db.Decimal(14, 2)
+  currency      String             @default("KES")
+  deadline      DateTime
+  status        ScholarshipStatus  @default(DRAFT)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  applications  Application[]
+  documents     Document[]
+
+  @@index([status, deadline])
+}
+
+model Application {
+  id            String            @id @default(uuid())
+  userId        String
+  scholarshipId String
+  status        ApplicationStatus @default(DRAFT)
+  submittedAt   DateTime?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  user          User              @relation(fields: [userId], references: [id], onDelete: Restrict)
+  scholarship   Scholarship       @relation(fields: [scholarshipId], references: [id], onDelete: Restrict)
+  documents     Document[]
+  reviews       Review[]
+  award         Award?
+
+  @@unique([userId, scholarshipId])
+  @@index([status, updatedAt])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entity, entityId, createdAt])
+  @@index([userId, createdAt])
+}
+
+model Session {
+  id        String    @id @default(uuid())
+  tokenHash String    @unique
+  userId    String
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+}
+
+model Review {
+  id            String         @id @default(uuid())
+  applicationId String
+  reviewerId    String
+  decision      ReviewDecision @default(PENDING)
+  score         Int?
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  application   Application    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  reviewer      User           @relation(fields: [reviewerId], references: [id], onDelete: Restrict)
+
+  @@unique([applicationId, reviewerId])
+  @@index([reviewerId, decision])
+}
+
+model Award {
+  id            String      @id @default(uuid())
+  applicationId String      @unique
+  amount        Decimal     @db.Decimal(14, 2)
+  currency      String      @default("KES")
+  status        AwardStatus @default(PENDING)
+  approvedAt    DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Restrict)
+  disbursement  Disbursement?
+}
+
+model Disbursement {
+  id          String             @id @default(uuid())
+  awardId     String             @unique
+  processedBy String?
+  reference   String             @unique
+  status      DisbursementStatus @default(PENDING)
+  processedAt DateTime?
+  notes       String?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  award       Award              @relation(fields: [awardId], references: [id], onDelete: Restrict)
+  processor   User?              @relation(fields: [processedBy], references: [id], onDelete: SetNull)
+}
+
+model Document {
+  id            String        @id @default(uuid())
+  userId        String
+  applicationId String?
+  scholarshipId String?
+  type          DocumentType  @default(OTHER)
+  fileName      String
+  storageKey    String
+  mimeType      String
+  sizeBytes     Int
+  verified      Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  application   Application?  @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  scholarship   Scholarship?  @relation(fields: [scholarshipId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([applicationId, type])
+}
+
+model Notification {
+  id        String              @id @default(uuid())
+  userId    String
+  title     String
+  message   String
+  channel   NotificationChannel @default(IN_APP)
+  status    NotificationStatus  @default(QUEUED)
+  sentAt    DateTime?
+  readAt    DateTime?
+  createdAt DateTime            @default(now())
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status, createdAt])
+}
+
+model Message {
+  id          String   @id @default(uuid())
+  senderId    String
+  recipientId String
+  subject     String
+  body        String
+  readAt      DateTime?
+  createdAt   DateTime @default(now())
+  sender      User     @relation("MessageSender", fields: [senderId], references: [id], onDelete: Restrict)
+  recipient   User     @relation("MessageRecipient", fields: [recipientId], references: [id], onDelete: Restrict)
+
+  @@index([recipientId, readAt, createdAt])
+}
