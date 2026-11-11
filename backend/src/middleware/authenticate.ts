@@ -32,7 +32,17 @@ const developmentUsers: Array<{ id: string; email: string; fullName: string; pas
 	{ id: "dev-signatory", email: "signatory@ikodi.org", fullName: "IKODI Authorized Signatory", password: "IKODI-Dev-Signatory-2026!", role: "SIGNATORY" },
 	{ id: "dev-auditor", email: "auditor@ikodi.org", fullName: "IKODI Audit Officer", password: "IKODI-Dev-Auditor-2026!", role: "AUDITOR" },
 	{ id: "dev-support", email: "support@ikodi.org", fullName: "IKODI Support Staff", password: "IKODI-Dev-Support-2026!", role: "SUPPORT_STAFF" },
-	{ id: "dev-student", email: "student@ikodi.org", fullName: "IKODI Test Student", password: "IKODI-Dev-Student-2026!", role: "STUDENT" }
+	{ id: "dev-student", email: "student@ikodi.org", fullName: "IKODI Test Student", password: "IKODI-Dev-Student-2026!", role: "STUDENT" },
+	{ id: "dev-student-01", email: "amina.wanjiku@students.ikodi.org", fullName: "Amina Wanjiku", password: "IKODI-Dev-Student-01-2026!", role: "STUDENT" },
+	{ id: "dev-student-02", email: "brian.otieno@students.ikodi.org", fullName: "Brian Otieno", password: "IKODI-Dev-Student-02-2026!", role: "STUDENT" },
+	{ id: "dev-student-03", email: "chipo.banda@students.ikodi.org", fullName: "Chipo Banda", password: "IKODI-Dev-Student-03-2026!", role: "STUDENT" },
+	{ id: "dev-student-04", email: "david.mwangi@students.ikodi.org", fullName: "David Mwangi", password: "IKODI-Dev-Student-04-2026!", role: "STUDENT" },
+	{ id: "dev-student-05", email: "esther.njeri@students.ikodi.org", fullName: "Esther Njeri", password: "IKODI-Dev-Student-05-2026!", role: "STUDENT" },
+	{ id: "dev-student-06", email: "farai.moyo@students.ikodi.org", fullName: "Farai Moyo", password: "IKODI-Dev-Student-06-2026!", role: "STUDENT" },
+	{ id: "dev-student-07", email: "grace.achieng@students.ikodi.org", fullName: "Grace Achieng", password: "IKODI-Dev-Student-07-2026!", role: "STUDENT" },
+	{ id: "dev-student-08", email: "hassan.ali@students.ikodi.org", fullName: "Hassan Ali", password: "IKODI-Dev-Student-08-2026!", role: "STUDENT" },
+	{ id: "dev-student-09", email: "irene.kato@students.ikodi.org", fullName: "Irene Kato", password: "IKODI-Dev-Student-09-2026!", role: "STUDENT" },
+	{ id: "dev-student-10", email: "joseph.kamau@students.ikodi.org", fullName: "Joseph Kamau", password: "IKODI-Dev-Student-10-2026!", role: "STUDENT" }
 ];
 const developmentSessions = new Map<string, { userId: string; expiresAt: Date }>();
 
